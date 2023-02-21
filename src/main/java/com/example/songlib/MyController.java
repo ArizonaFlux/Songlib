@@ -65,14 +65,19 @@ public class MyController {
 
             alert.showAndWait();
         }
+        else
+        {
+            reload();
+            list.getSelectionModel().select(lib.get_selected_index());
+            list.getFocusModel().focus( lib.get_selected_index() );
+        }
+
         try{
             lib.save("Songs.csv");
         }
         catch (Exception e){
             System.out.println("Failed to save file in adding" + e);
         };
-
-        reload();
     }
 
     public void editing(ActionEvent event) throws IOException {
@@ -107,9 +112,14 @@ public class MyController {
 
                 alert.showAndWait();
             }
+            else
+            {
+                reload();
+                list.getSelectionModel().select(lib.get_selected_index());
+                list.getFocusModel().focus( lib.get_selected_index() );
+            }
         }
 
-        reload();
         try{
             lib.save("Songs.csv");
         }
@@ -145,9 +155,14 @@ public class MyController {
 
                 alert.showAndWait();
             }
+            else if ( lib.to_song().length != 0 )
+            {
+                reload();
+                list.getSelectionModel().select(lib.get_selected_index());
+                list.getFocusModel().focus( lib.get_selected_index() );
+            }
         }
 
-        reload();
         try{
             lib.save("Songs.csv");
         }

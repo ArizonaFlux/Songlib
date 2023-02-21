@@ -1,6 +1,7 @@
 package com.example.songlib;
 
 import java.util.PriorityQueue;
+import java.util.Arrays;
 import java.io.*;
 
 
@@ -98,11 +99,8 @@ public class library
             }
         }
         song temp = new song( name, artist, album, year );
-        if ( pq.isEmpty() )
-        {
-            selected = temp;
-        }
         pq.add( temp );
+        selected = temp;
         return true;
     }
 
@@ -118,23 +116,25 @@ public class library
             }
         }
         song temp = new song( name, artist, album, year );
-        if ( pq.isEmpty() )
-        {
-            selected = temp;
-        }
         pq.add( temp );
+        selected = temp;
         return true;
     }
 
     public boolean edit( String old_name, String old_artist, String str_name, String str_artist, String str_album, String str_year )
     {
+        song del = null;
+        String name = null;
+        String artist = null;
+        String album = null;
+        int year = 0;
         for ( song temp : pq )
         {
             if ( temp.name.equals(old_name) && temp.artist.equals(old_artist) )
             {
-                String name = str_name.trim();
-                String artist = str_artist.trim();
-                String album = str_album.trim();
+                name = str_name.trim();
+                artist = str_artist.trim();
+                album = str_album.trim();
                 String s_year = str_year.trim();
 
                 if(name.length() == 0 || artist.length() == 0)
@@ -146,7 +146,6 @@ public class library
                     album = "";
                 }
 
-                int year;
                 if(s_year.length() == 0) s_year = "0";
                 try
                 {
@@ -165,38 +164,53 @@ public class library
                         return false;
                     }
                 }
-                temp.name = name;
-                temp.artist = artist;
-                temp.album = album;
-                temp.year = year;
-
-                selected = temp;
-
-                return true;
+                del = temp;
+                break;
             }
+        }
+        if ( del != null )
+        {
+            pq.remove(del);
+            return add(name, artist, album, year );
         }
         return false;
     }
 
     public boolean delete( String name, String artist )
     {
-        song del = null;
-        boolean next = false;
-        for ( song temp : pq )
+        song songs[] = pq.toArray( new song[pq.size()] );
+        Arrays.sort( songs, pq.comparator() );
+        int index = -1;
+        int size = pq.size();
+        for ( int i = 0; i < size; i++ )
         {
-            if ( temp.name.equals(name) && temp.artist.equals(artist) )
+            if ( songs[i].name.equals(name) && songs[i].artist.equals(artist) )
             {
-                del = temp;
-                next = true;
-            }
-            if ( next == true )
-            {
-                selected = temp;
-                return pq.remove(del);
+                index = i;
+                break;
             }
         }
-        if (del != null) selected =
-        return false;
+        if ( index == -1 )
+        {
+            return false;
+        }
+        pq.clear();
+        if ( index == size )
+        {
+            selected = songs[ index - 1 ];
+        }
+        else
+        {
+            selected = songs[ index + 1 ];
+        }
+        for ( int i = 0; i < size; i++ )
+        {
+            if ( i != index )
+            {
+                pq.add( songs[i] );
+            }
+        }
+        return true;
     }
 
     public boolean select( String name, String artist )
@@ -217,14 +231,26 @@ public class library
         return selected;
     }
 
+    public int get_selected_index()
+    {
+        song songs[] = pq.toArray( new song[pq.size()] );
+        Arrays.sort( songs, pq.comparator() );
+
+        for ( int i = 0; i < pq.size(); i++ )
+        {
+            if ( songs[i].name.equals(selected.name) && songs[i].artist.equals(selected.artist) )
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public song[] to_song()
     {
-        song songs[] = new song[pq.size()];
-        int counter = 0;
-        for ( song temp : pq )
-        {
-            songs[counter++] = temp;
-        }
+        song songs[] = pq.toArray( new song[pq.size()] );
+        Arrays.sort( songs, pq.comparator() );
+
         return songs;
     }
 }

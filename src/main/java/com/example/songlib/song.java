@@ -25,12 +25,12 @@ public class song implements Comparable<song>
 
     public String to_list()
     {
-        return String.format("%10s | %7s | %7s | %4d", name, artist, album, year);
+        return String.format("%15s | %15s | %10s | %5d", name, artist, album, year);
     }
 
     @Override
     public int compareTo( song other )
     {
-        return name.toLowerCase().compareTo( other.name.toLowerCase() );
+        return name.compareToIgnoreCase( other.name );
     }
 }
