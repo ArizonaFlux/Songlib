@@ -7,11 +7,14 @@ import java.io.*;
 public class library
 {
     private PriorityQueue<song> pq;
+    private final song no_song = new song( "Empty", "Empty", "Empty", 0000 );
+    private song selected;
 
     // no arg library;
     public library()
     {
         pq = new PriorityQueue<song>();
+        selected = no_song;
     }
 
     // read in a library from file
@@ -26,10 +29,12 @@ public class library
                 String[] parts = line.split( "\\|\\|" );
                 this.add( parts[0], parts[1], parts[2], Integer.parseInt( parts[3] ) );
             }
+            selected = pq.peek();
         }
         catch ( IOException e )
         {
             System.err.println( "WARN: Save file not found, creating new save" );
+            selected = no_song;
         }
     }
 
@@ -51,7 +56,6 @@ public class library
         writer.close();
     }
 
-    // add from user
     public boolean add( String str_name, String str_artist, String str_album, String str_year )
     {
         String name = str_name.trim();
@@ -69,11 +73,14 @@ public class library
             }
         }
         song temp = new song( name, artist, album, year );
+        if ( pq.isEmpty() )
+        {
+            selected = temp;
+        }
         pq.add( temp );
         return true;
     }
 
-    // add from file
     public boolean add( String name, String artist, String album, int year )
     {
         // search for duplicated
@@ -86,6 +93,10 @@ public class library
             }
         }
         song temp = new song( name, artist, album, year );
+        if ( pq.isEmpty() )
+        {
+            selected = temp;
+        }
         pq.add( temp );
         return true;
     }
@@ -117,6 +128,24 @@ public class library
             }
         }
         return false;
+    }
+
+    public boolean select( String name, String artist )
+    {
+        for ( song temp : pq )
+        {
+            if ( temp.name.equals(name) && temp.artist.equals(artist) )
+            {
+                selected = temp;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public song get_selected()
+    {
+        return selected;
     }
 
     public song[] to_song()

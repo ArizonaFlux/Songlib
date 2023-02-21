@@ -26,6 +26,6 @@ public class song implements Comparable<song>
     @Override
     public int compareTo( song other )
     {
-        return name.compareTo( other.name );
+        return name.toLowerCase().compareTo( other.name.toLowerCase() );
     }
 }
