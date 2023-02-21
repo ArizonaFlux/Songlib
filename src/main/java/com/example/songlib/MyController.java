@@ -93,6 +93,7 @@ public class MyController {
 
         song selected = lib.get_selected();
 
+        // no_song: backend null representation
         if (selected.name.length() == 0)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -126,6 +127,8 @@ public class MyController {
         catch (Exception e){
             System.out.println("Failed to save file in adding" + e);
         };
+
+        System.out.println("Edited song: " + selected);
     }
 
     public void deleting(ActionEvent event) {
@@ -173,6 +176,8 @@ public class MyController {
         catch (Exception e){
             System.out.println("Failed to save file in adding" + e);
         };
+
+        System.out.println("Deleted song: " + selected);
     }
 
     public boolean confirming() {

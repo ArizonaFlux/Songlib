@@ -160,8 +160,11 @@ public class library
                 {
                     if ( tempp.name.equals( name ) && tempp.artist.equals( artist ) )
                     {
-                        System.err.println( "[WARN]: Song already exist." );
-                        return false;
+                        if ( ! (tempp.album.equals( album ) ) || ! (tempp.year == year) )
+                        {
+                            System.err.println( "[WARN]: Song already exist." );
+                            return false;
+                        }
                     }
                 }
                 del = temp;
