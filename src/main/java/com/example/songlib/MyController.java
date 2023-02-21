@@ -161,6 +161,10 @@ public class MyController {
                 list.getSelectionModel().select(lib.get_selected_index());
                 list.getFocusModel().focus( lib.get_selected_index() );
             }
+            else if ( lib.to_song().length == 0 )
+            {
+                reload();
+            }
         }
 
         try{

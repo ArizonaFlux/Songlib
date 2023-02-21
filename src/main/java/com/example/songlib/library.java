@@ -195,7 +195,12 @@ public class library
             return false;
         }
         pq.clear();
-        if ( index == size )
+        if ( size == 1 )
+        {
+            selected = no_song;
+            return true;
+        }
+        if ( index == size -1 )
         {
             selected = songs[ index - 1 ];
         }
