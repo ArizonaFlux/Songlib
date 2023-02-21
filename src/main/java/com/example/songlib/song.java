@@ -23,6 +23,11 @@ public class song implements Comparable<song>
         return name + "||" + artist + "||" + album + "||" + Integer.toString(year);
     }
 
+    public String to_list()
+    {
+        return String.format("%10s | %7s | %7s | %4d", name, artist, album, year);
+    }
+
     @Override
     public int compareTo( song other )
     {

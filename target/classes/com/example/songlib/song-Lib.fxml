@@ -15,9 +15,9 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="delete" layoutX="505.0" layoutY="345.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="edit" layoutX="425.0" layoutY="345.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="53.0" text="Edit" />
-      <ListView fx:id="list" layoutX="25.0" layoutY="24.0" prefHeight="352.0" prefWidth="279.0" />
+      <Button fx:id="delete" layoutX="505.0" layoutY="345.0" mnemonicParsing="false" onAction="#deleting" text="Delete" />
+      <Button fx:id="edit" layoutX="425.0" layoutY="345.0" mnemonicParsing="false" onAction="#editing" prefHeight="23.0" prefWidth="53.0" text="Edit" />
+      <ListView fx:id="list" layoutX="25.0" layoutY="24.0" prefHeight="352.0" prefWidth="279.0" onMouseClicked="#handleMouseClick"/>
       <Text layoutX="307.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" wrappingWidth="91.5736083984375">
          <font>
             <Font size="14.0" />
@@ -37,12 +37,6 @@
       <TextField fx:id="artist" layoutX="404.0" layoutY="70.0" promptText="Who made you?" />
       <TextField fx:id="album" layoutX="404.0" layoutY="112.0" promptText="From where?" />
       <TextField fx:id="year" layoutX="404.0" layoutY="154.0" promptText="What year?" />
-      <Button fx:id="yes" layoutX="392.0" layoutY="293.0" mnemonicParsing="false" text="Yes" />
-      <Button fx:id="no" layoutX="468.0" layoutY="293.0" mnemonicParsing="false" text="No" />
-      <Text id="sure" layoutX="365.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure?" textAlignment="CENTER" wrappingWidth="173.5736083984375">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Text>
+      <AnchorPane fx:id="myAnchorPane" layoutX="339.0" layoutY="200.0" prefHeight="128.0" prefWidth="225.0" />
    </children>
 </AnchorPane>

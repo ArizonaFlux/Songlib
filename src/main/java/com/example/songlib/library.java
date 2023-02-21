@@ -7,7 +7,7 @@ import java.io.*;
 public class library
 {
     private PriorityQueue<song> pq;
-    private final song no_song = new song( "Empty", "Empty", "Empty", 0000 );
+    private final song no_song = new song( "", "", "", 0000 );
     private song selected;
 
     // no arg library;
@@ -29,7 +29,10 @@ public class library
                 String[] parts = line.split( "\\|\\|" );
                 this.add( parts[0], parts[1], parts[2], Integer.parseInt( parts[3] ) );
             }
-            selected = pq.peek();
+            if(pq.peek() == null)
+                selected = no_song;
+            else
+                selected = pq.peek();
         }
         catch ( IOException e )
         {
@@ -56,13 +59,35 @@ public class library
         writer.close();
     }
 
+
     public boolean add( String str_name, String str_artist, String str_album, String str_year )
     {
         String name = str_name.trim();
         String artist = str_artist.trim();
         String album = str_album.trim();
-        int year = Integer.parseInt( str_year.trim() );
-        
+        String s_year = str_year.trim();
+
+        if(name.length() == 0 || artist.length() == 0)
+        {
+            return false;
+        }
+
+        if(album.length() == 0) {
+            album = "";
+        }
+
+        int year;
+        if(s_year.length() == 0) s_year = "0";
+        try
+        {
+            year = Integer.parseInt( s_year );
+        }
+        catch( Exception e )
+        {
+            return false;
+        }
+
+
         // search for duplicated
         for ( song temp : pq )
         {
@@ -101,18 +126,53 @@ public class library
         return true;
     }
 
-    public boolean edit( String old_name, String old_artist, String name, String artist, String album, int year )
+    public boolean edit( String old_name, String old_artist, String str_name, String str_artist, String str_album, String str_year )
     {
         for ( song temp : pq )
         {
-            // search for the song
-            if ( temp.name.equals( old_name ) && temp.artist.equals( old_artist ) )
+            if ( temp.name.equals(old_name) && temp.artist.equals(old_artist) )
             {
+                String name = str_name.trim();
+                String artist = str_artist.trim();
+                String album = str_album.trim();
+                String s_year = str_year.trim();
+
+                if(name.length() == 0 || artist.length() == 0)
+                {
+                    return false;
+                }
+
+                if(album.length() == 0) {
+                    album = "";
+                }
+
+                int year;
+                if(s_year.length() == 0) s_year = "0";
+                try
+                {
+                    year = Integer.parseInt( s_year );
+                }
+                catch( Exception e )
+                {
+                    return false;
+                }
+                // search for duplicated
+                for ( song tempp : pq )
+                {
+                    if ( tempp.name.equals( name ) && tempp.artist.equals( artist ) )
+                    {
+                        System.err.println( "[WARN]: Song already exist." );
+                        return false;
+                    }
+                }
                 temp.name = name;
                 temp.artist = artist;
                 temp.album = album;
                 temp.year = year;
-                return true;              
+
+                selected = temp;
+
+                return true;
             }
         }
         return false;
@@ -120,13 +180,22 @@ public class library
 
     public boolean delete( String name, String artist )
     {
+        song del = null;
+        boolean next = false;
         for ( song temp : pq )
         {
             if ( temp.name.equals(name) && temp.artist.equals(artist) )
             {
-                return pq.remove( temp );
+                del = temp;
+                next = true;
+            }
+            if ( next == true )
+            {
+                selected = temp;
+                return pq.remove(del);
             }
         }
+        if (del != null) selected =
         return false;
     }
 

@@ -15,8 +15,6 @@ public class SongLib extends Application {
         primaryStage.setTitle("Song Library");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
     }
 
     public static void main(String[] args) {
